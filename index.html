@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 100px;
+        height: 100px;
+        background-color: rgb(219, 155, 155);
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 100px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 动画封装函数 -->
+    <div></div>
+    <button class="b500">点击500</button>
+    <button class="b800">点击800</button>
+    <script>
+      // obj , target 运动的对象， 运动的终点距离
+      function animate(obj, target) {
+        // 当我们不断的点击按钮，这个元素的速度会越来越快，因为开启了太多定时器
+        // 解决方案就是，让我们元素只有一个定时器执行
+        // 先清除以前的定时器，只保留当前的一个定时器执行
+        clearInterval(obj.timer);
+        //   设置定时器
+        obj.timer = setInterval(function () {
+            // 将步长值写到定时器里面
+        //  2. 核心算法： (目标值 - 现在的位置 ) / 10 做为每次移动的距离 步长
+        // 将我们的步长值改为整数，不要出现小数的问题//math.ceil往大了取整,针对移动距离不为整数的问题，495.5
+            // var step = Math.ceil((target - obj.offsetLeft) / 10);//针对移动距离不为整数的问题，495.5
+            var step = (target - obj.offsetLeft) / 10;//此法针对800 返 500 时，据// var step = Math.ceil((target - obj.offsetLeft) / 10);//针对移动距离不为整数的问题，495.5
+           step =  step > 0 ? Math.ceil(step) : Math.floor(step)//的方法为负值，所以当移动的值为负数时，取小，为正取大
+          // 动画停止条件
+          if (obj.offsetLeft == target) {
+            clearInterval(obj.timer);
+          }
+          // 动画效果
+        //   将每次加1 这个步长值 改为一个慢慢变小的值
+          obj.style.left = obj.offsetLeft + step + "px";
+        }, 15);
+      }
+    //   获取元素
+    var div = document.querySelector('div');
+    var b500 = document.querySelector('.b500');
+    var b800 = document.querySelector('.b800');
+     // 调用动画函数
+     b500.addEventListener('click' ,function() {
+        animate( div , 500);
+     })
+     b800.addEventListener('click' ,function() {
+        animate( div , 800);
+     })
+    //  匀速动画 就是盒子当前的位置 + 固定的值 10；
+    //缓动动画就是 ： 盒子当前的位置 + 变化值（(目标值 - 现在的位置)/10）
+    // obj.style.left = obj.offsetLeft + step + "px";
+    </script>
+  </body>
+</html>
