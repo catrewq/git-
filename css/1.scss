@@ -1,0 +1,12 @@
+$c1:pink;
+// $b:background-color；
+button {
+    outline: $c1;
+    border :1px solid $c1;
+}
+div {
+    width: 200px;
+    height: 200px;
+    margin-top: 100px;
+    background-color: rgb(247, 62, 62);
+}
